@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+    
+        <title>Common Room | Dashboard</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    
+    </head>
+    
+    <body>
+        
+        <img src="{{ url_for('static', filename='CommonRoom.png')}}">
+        <h1>Common Room</h1>
+        <h3>An attendance system for USACS.</h3>
+        
+        <table>
+          
+            <tr>
+                <th>Number</th>
+                <th>Name</th>
+                <th>Graduating Class</th>
+                <th>Number of Meetings</th>
+            </tr>
+         
+            {% for key in page %}
+            
+                <tr>
+                    <td> {{ key }} </td>
+                    <td> {{ page[key]["name"] }} </td>
+                    <td> {{ page[key]["year"] }} </td>
+                    <td> {{ page[key]["numMeetings"] }} </td>
+                </tr>
+        
+            {% endfor %}
+        
+        </table>
+    </body>
+</html>

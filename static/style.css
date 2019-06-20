@@ -1,0 +1,32 @@
+body{
+    
+    text-align: center;
+}
+
+
+h1, h2, h3, th, td{ font-family: sans-serif; }
+
+
+img{
+    
+    border-width: 2px;
+}
+
+
+table {
+    
+    width: 75%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    border-width: 10px;
+    border-color: black;
+    background-color: aliceblue;
+}
