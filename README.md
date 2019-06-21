@@ -1,6 +1,6 @@
 # Common Room
 
-![Fat Lady from Harry Potter]("https://photos.google.com/search/_tra_/photo/AF1QipNwcsDMvwbHCZRpSNaM9G6XwKm-SvLNX4R6CAvs")
+![Fat Lady from Harry Potter](static/CommonRoom.png)
 
 An attendance system for USACS meetings.
 
