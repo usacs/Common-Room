@@ -1,5 +1,7 @@
 # Common Room
 
+![Fat Lady from Harry Potter]("https://github.com/usacs/Common-Room/blob/master/static/CommonRoom.png")
+
 An attendance system for USACS meetings.
 
 ## About
@@ -7,14 +9,15 @@ This application is built with Flask, Twilio, and simple Myjson store as the dat
 
 ### Anatomy of the Project
 
-|-common_room.py
-|
-|-static/
-    |-style.css
-|
-|-templates/
-    |-index.html
-    |-password.html
+- /
+    - common_room.py
+    - static
+        - style.css
+        - logo
+    - templates
+        - index.html
+        - password.html
+
 
 ### Dependencies
 The application uses the following dependencies:
