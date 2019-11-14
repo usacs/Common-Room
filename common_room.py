@@ -52,8 +52,8 @@ def sms():
 
     resp = MessagingResponse()  # Messaging client
     counter = session.get('counter', 0)  # Establish session counter
-
-    if number in db_request:  # The user has already texted this number.
+    #counter == 3 means the user is done configuring thier personal information
+    if number in db_request & counter == 3:  # The user has already texted this number and their personal info is correct
 
         # Manipulate JSON, push to DB.
         user = db_request[number]
@@ -75,7 +75,7 @@ def sms():
             # Ask them for their personal info.
             message = """This is your first USACS Meeting! Please send the following information
             In one Text, seperated by spaces:
-            Your Name (first, last)
+            Your Name, first and last
             Your Graduating Class"""
 
             resp.message(message)
@@ -86,16 +86,50 @@ def sms():
 
         else:  # If we've already asked for their personal info...
 
-            user_data = message_body.split(" ")  # Parse it.
+            if(counter == 1): #we currently have their personal info
+                user_data = message_body.split(" ")  # Parse it.
+                name = user_data[0] + "_" + user_data[1]
+                year = user_data[2]
 
-            # Manipulate JSON, push to DB.
-            db_request[number] = {"name": user_data[0] + "_" + user_data[1], "year": user_data[2], "numMeetings": 1}
-            post = requests.put(db, json=db_request)
 
-            user = db_request[number]
+                # Manipulate JSON, push to DB.
+                db_request[number] = {"name": user_data[0] + "_" + user_data[1], "year": user_data[2], "numMeetings": 1}
+                post = requests.put(db, json=db_request)
 
-            resp.message("Thanks! You've been to {} meetings".format(
-                user["numMeetings"]))  # Let them know their attendance has been recorded.
+                #increment session
+                counter += 1
+                session['counter'] = counter
+
+                #ask if information was parsed correctly
+                resp.message("Is your information:\n Name: " + user_data[0] + "_" + user_data[1] +
+                         "\n year:" + user_data[2]  + "\n correct? (yes/no)")
+
+            if(counter == 2): #we are checking to ensure the user's information was parsed correctly
+
+                messageAccepted = False
+                #the user is happy with their information
+                if(message_body.lower() == "yes" | message_body.lower() == "y" | message_body.lower() == "ye"):
+
+                    # increment session
+                    counter += 1
+                    session['counter'] = counter
+
+                    user = db_request[number]
+
+                    resp.message("Thanks! You've been to {} meetings".format(
+                    user["numMeetings"]))  # Let them know their attendance has been recorded.
+
+                    messageAccepted = True
+                #information was not parsed correctly
+                if(message_body.lower() == "no" | message_body.lower == "n"):
+                    resp.message("That is ok, text again to restart the process")
+                    messageAccepted = True
+                    session['counter'] = 0
+
+                if(not messageAccepted):
+                        resp.message("that response was not understood, valid responses are 'yes' or 'no'\n"
+                                     "please respond again")
+
 
     return str(resp)
 
